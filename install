@@ -1,0 +1,31 @@
+ЭТИ ДЕЙСТВИЯ ВЫПОЛНЯЮТСЯ ПОД ПОЛЬЗОВАТЕЛЕМ ROOT
+
+addgroup wheel
+sudo useradd -G adm,cdrom,wheel -p password -s /bin/bash ИМЯ_ПОЛЬЗОВАТЕЛЯ
+sudo mkhomedir_helper ИМЯ_ПОЛЬЗОВАТЕЛЯ
+passwd ИМЯ_ПОЛЬЗОВАТЕЛЯ
+usermod -a -G sudo ИМЯ_ПОЛЬЗОВАТЕЛЯ
+usermod -a -G wheel ИМЯ_ПОЛЬЗОВАТЕЛЯ
+
+
+
+ЭТИ ДЕЙСТВИЯ ВЫПОЛНЯЮТСЯ ПОД НОВЫМ ПОЛЬЗОВАТЕЛЕМ 
+
+sudo apt update
+sudo apt install unzip
+sudo apt install python3-pip python3-dev libpq-dev nginx curl
+sudo apt install python3.10-venv
+
+pythom -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install django gunicorn
+deactivate
+
+
+ИНСТРУКЦИЯ НА ДАЛЬНЕЙШУЮ УСТАНОВКУ 
+https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04-ru
+
+
+ПОЛУЧЕНИЕ SSL
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04-ru
