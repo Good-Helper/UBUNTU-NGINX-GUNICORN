@@ -29,3 +29,7 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postg
 
 ПОЛУЧЕНИЕ SSL
 https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04-ru
+
+
+
+по окончанию всех действий с папками заменить владельца папки  nginx  sudo chown -R www-data:www-data MRC
