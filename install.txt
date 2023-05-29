@@ -33,3 +33,59 @@ https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-
 
 
 по окончанию всех действий с папками заменить владельца папки  nginx  sudo chown -R www-data:www-data MRC
+
+
+
+
+
+
+почему при включение debug false пропали картинки с сайта
+Perplexity
+Когда в Django приложении включен режим DEBUG=True, то статические файлы, такие как изображения, могут быть обслужены напрямую из папки STATICFILES_DIRS или STATIC_ROOT. Однако, когда режим DEBUG=False, Django не обслуживает статические файлы напрямую, а ожидает, что они будут обслужены веб-сервером, таким как Nginx или Apache1
+2
+. Если вы используете встроенный сервер Django для разработки, то вам нужно добавить в urls.py следующую строку:
+
+python
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    # ... the rest of your URLconf goes here ...
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+Это позволит Django обслуживать статические файлы в режиме DEBUG=True. Однако, когда вы развертываете приложение в производственной среде, вам нужно настроить веб-сервер, чтобы он обслуживал статические файлы. Например, для Nginx вы можете добавить следующую конфигурацию:
+
+location /static/ {
+    alias /path/to/your/static/files/;
+}
+
+Это указывает Nginx обслуживать статические файлы из /path/to/your/static/files/ при обращении к URL, начинающемуся с /static/. Если вы уже настроили веб-сервер для обслуживания статических файлов, но изображения все еще не отображаются, то вам может потребоваться проверить права доступа к файлам и папкам, а также убедиться, что пути к файлам указаны правильно3
+.
+
+
+
+
+
+
+
+
+как настроить отображение media файлов на панели инструментов
+Perplexity
+Для того, чтобы настроить отображение media файлов на панели инструментов в Django, необходимо добавить следующие строки в файл urls.py:
+
+python
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    # ... the rest of your URLconf goes here ...
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+Это позволит Django обслуживать media файлы в режиме DEBUG=True. Однако, когда вы развертываете приложение в производственной среде, вам нужно настроить веб-сервер, чтобы он обслуживал media файлы. Например, для Nginx вы можете добавить следующую конфигурацию:
+
+location /media/ {
+    alias /path/to/your/media/files/;
+}
+
+Это указывает Nginx обслуживать media файлы из /path/to/your/media/files/ при обращении к URL, начинающемуся с /media/. Если вы уже настроили веб-сервер для обслуживания media файлов, но они все еще не отображаются, то вам может потребоваться проверить права доступа к файлам и папкам, а также убедиться, что пути к файлам указаны правильно1
+.
